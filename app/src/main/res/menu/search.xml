@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto">
+<item
+    app:actionViewClass="android.support.v7.widget.SearchView"
+    android:id="@+id/search_view"
+    android:orderInCategory="100"
+    android:title="搜索"
+    app:showAsAction="always"
+    android:textColor="#ffffff" />
+    <item
+    android:id="@+id/donate"
+    android:orderInCategory="100"
+    android:title="捐赠"
+    app:showAsAction="never"
+    android:textColor="#000000" />
+
+    <item
+        android:id="@+id/setting"
+        android:orderInCategory="100"
+        android:title="设置"
+        app:showAsAction="never"
+        android:textColor="#000000" />
+
+    <item
+        android:id="@+id/about"
+        android:orderInCategory="100"
+        android:title="关于"
+        app:showAsAction="never"
+        android:textColor="#000000" />
+
+</menu>
