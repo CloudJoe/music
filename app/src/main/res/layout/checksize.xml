@@ -10,7 +10,7 @@
         android:layout_height="56dp"
         android:layout_margin="5dp"
         android:gravity="center_vertical"
-        android:text="分享"
+        android:text="选择音质"
         android:textSize="20sp" />
 
     <View

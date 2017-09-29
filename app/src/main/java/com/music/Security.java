@@ -71,6 +71,7 @@ public class Security {
 
     public List<Data> jsonarray(String json) {
         x = new ArrayList<>();
+
         Security security = new Security();
         try {
             JSONArray so = new JSONArray(json);
@@ -79,23 +80,43 @@ public class Security {
             } else {
                 for (int i = 0; i < so.length(); i++) {
                     JSONObject jo = so.getJSONObject(i);
+                    List<SizeBean> y=new ArrayList<>();
 
                     if (jo.has("mid")) {
                         String mid = jo.getString("mid");
                         String title = jo.getString("title");
                         String jsonob = security.jsonob(String.valueOf(jo), "singer");
                         String jsonfile = security.jsonob(String.valueOf(jo), "file");
+
                         String  s128= security.jsonob(jsonfile, "size_128");
+                        int s1=Integer.parseInt(s128);
+                        SizeBean a1=new SizeBean(1,"标准品质",s1);
+                        y.add(a1);
+
                         String  s320= security.jsonob(jsonfile, "size_320");
-                        String  sacc= security.jsonob(jsonfile, "size_acc");
+                        int s2=Integer.parseInt(s320);
+                        SizeBean a2=new SizeBean(2,"高品质",s2);
+                        y.add(a2);
+
+//                        String  saac= security.jsonob(jsonfile, "size_aac");
                         String  sape= security.jsonob(jsonfile, "size_ape");
-                        String  sdts= security.jsonob(jsonfile, "size_dts");
+                        int s3=Integer.parseInt(sape);
+                        SizeBean a3=new SizeBean(3,"ape无损品质",s3);
+                        y.add(a3);
+
+//                        String  sdts= security.jsonob(jsonfile, "size_dts");
                         String  sflac= security.jsonob(jsonfile, "size_flac");
-                        String  sogg= security.jsonob(jsonfile, "size_ogg");
-                        String  stry= security.jsonob(jsonfile, "size_try");
+                        int s4=Integer.parseInt(sflac);
+                        SizeBean a4=new SizeBean(4,"flac无损品质",s4);
+                        y.add(a4);
+
+//                        String  sogg= security.jsonob(jsonfile, "size_ogg");
+//                        String  stry= security.jsonob(jsonfile, "size_try");
                         String jsonobar = security.jsonar(jsonob);
                         String singer = security.jsonob(jsonobar, "title");
-                        Data d = new Data(mid, title, singer,s128,s320,sacc,sape,sdts,sflac,sogg,stry);
+                        Data d = new Data(mid, title, singer,y);
+                        Log.e("列表长度", String.valueOf(y.size()));
+
                         x.add(d);
                     } else {
                         Log.e("未找到", "jo");
@@ -110,7 +131,7 @@ public class Security {
         return x;
     }
 
-    public void musicSize() {
+    public static void musicSize() {
 
     }
 }

@@ -19,6 +19,7 @@ public class WebActivity extends AppCompatActivity {
     String finnalurl,skey,uin;
     Security security;
     Handler handler;
+    private  String LOGIN="https://y.qq.com/portal/profile.html";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +78,9 @@ public class WebActivity extends AppCompatActivity {
                                 }
 
                             }).start();}
+                            else {
+                            webview.loadUrl(LOGIN_URL);
+                        }
 
                     }
 
@@ -86,7 +90,7 @@ public class WebActivity extends AppCompatActivity {
             }
 
         });
-        webview.loadUrl(LOGIN_URL);
+        webview.loadUrl(LOGIN);
 
     }}
 //https://c.y.qq.com/soso/fcgi-bin/client_search_cp?ct=24&qqmusic_ver=1298&new_json=1&remoteplace=txt.yqq.center&t=0&aggr=1&cr=1&catZhida=1&lossless=0&flag_qc=0&p=1&n=40&w=%E5%91%A8%E6%9D%B0%E4%BC%A6&&jsonpCallback=searchCallbacksong2020&format=jsonp&inCharset=utf8&outCharset=utf-8&notice=0&platform=yqq&needNewCode=0

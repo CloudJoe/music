@@ -31,12 +31,12 @@ public class DownloadUtils {
 
         //在通知栏中显示，默认就是显示的
         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE);
-        request.setTitle("新版本Apk");
-        request.setDescription("Apk Downloading");
+        request.setTitle(name);
+        request.setDescription("Song Downloading");
         request.setVisibleInDownloadsUi(true);
 
         //设置下载的路径
-        request.setDestinationInExternalPublicDir(Environment.getExternalStorageDirectory().getAbsolutePath() , name);
+        request.setDestinationInExternalPublicDir(Environment.getExternalStorageDirectory().getAbsolutePath(),name);
 
         //获取DownloadManager
         downloadManager = (DownloadManager) mContext.getSystemService(Context.DOWNLOAD_SERVICE);
@@ -79,6 +79,7 @@ public class DownloadUtils {
                 case DownloadManager.STATUS_SUCCESSFUL:
                     //下载完成安装APK
                    // installAPK();
+                    Toast.makeText(mContext, "下载完成", Toast.LENGTH_LONG).show();
                     break;
                 //下载失败
                 case DownloadManager.STATUS_FAILED:
@@ -89,17 +90,17 @@ public class DownloadUtils {
         c.close();
     }
 
-    //下载到本地后执行安装
-    private void installAPK() {
-        //获取下载文件的Uri
-        Uri downloadFileUri = downloadManager.getUriForDownloadedFile(downloadId);
-        if (downloadFileUri != null) {
-            Intent intent= new Intent(Intent.ACTION_VIEW);
-            intent.setDataAndType(downloadFileUri, "application/vnd.android.package-archive");
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            mContext.startActivity(intent);
-        }
-    }
+//    下载到本地后执行安装
+//    private void installAPK() {
+//        //获取下载文件的Uri
+//        Uri downloadFileUri = downloadManager.getUriForDownloadedFile(downloadId);
+//        if (downloadFileUri != null) {
+//            Intent intent= new Intent(Intent.ACTION_VIEW);
+//            intent.setDataAndType(downloadFileUri, "application/vnd.android.package-archive");
+//            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//            mContext.startActivity(intent);
+//        }
+//    }
 
 
 

@@ -13,7 +13,7 @@
         android:layout_alignParentStart="false"
         android:layout_centerVertical="false"
         android:gravity="fill_vertical"
-        android:text="TextView" />
+        android:text="size_128" />
 
     <TextView
         android:id="@+id/size"
@@ -22,5 +22,5 @@
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
         android:layout_marginEnd="35dp"
-        android:text="TextView" />
+        android:text=" 3052563" />
 </RelativeLayout>

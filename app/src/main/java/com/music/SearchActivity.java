@@ -1,6 +1,5 @@
 package com.music;
 
-
 import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -39,7 +38,7 @@ public class SearchActivity extends AppCompatActivity {
 
     private SearchView searchView;
     private Handler handler;
-    private String vkey, uin, keyword, edkeyword, json;
+    private String vkey, uin,  edkeyword, json;
     private Security security;
     private List<Data> mdata;
     private ListView listview;
@@ -47,9 +46,9 @@ public class SearchActivity extends AppCompatActivity {
     private String Z = "&&jsonpCallback=searchCallbacksong2020&format=jsonp&inCharset=utf8&outCharset=utf-8&notice=0&platform=yqq&needNewCode=0";
     private String T = "http://dl.stream.qqmusic.qq.com/M5000041vb5D3WMtrl.mp3?vkey=D715580975C90F4AAB1EEFAE5F8D321D4C30F81608F67E6D023EB18C9CDCCC9B4D4198004872ADA5B8CA18202E806ED6177215DD5E13BF8C&guid=1234567890&uin=2500937204&fromtag=64";
     private String TAG = "test";
-    private static final String shareStr[] = {
-            "微信","QQ","空间","微博","GitHub","CJJ测试\nRecyclerView自适应","微信朋友圈","短信","推特","遇见"
-    };
+    private String HEAD="http://dl.stream.qqmusic.qq.com/";
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,46 +61,20 @@ public class SearchActivity extends AppCompatActivity {
         vkey = bundle.getString("vkey");
         uin = bundle.getString("uin");
         listview = (ListView) findViewById(R.id.list);
-        if (isStoragePermissionGranted()) {
-            Toast.makeText(this, "XX", Toast.LENGTH_LONG).show();
-        } else {
-            Toast.makeText(this, "？？", Toast.LENGTH_LONG).show();
+        if (!isStoragePermissionGranted()) {
+            Toast.makeText(this, "请给予SD卡读写权限", Toast.LENGTH_LONG).show();
         }
 
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Data date = mdata.get(position);
-//                coursetableid=mdata.getCourseTableID();
-                AlertDialog alertDialog = new AlertDialog.Builder(SearchActivity.this)
-                        .setTitle("确认操作")
-                        .setMessage("您确认要删除该记录吗？")
-                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        })
-                        .setPositiveButton("确认", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                showBSDialog();
-                                new Thread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        try {
-
-//                                            new downloadThread().start();
+                List<SizeBean> sizeBeanList=date.getSizeBeanList();
+                String name=date.getName();
+                String mid=date.getMid();
+                showBSDialog(sizeBeanList,name,mid);
 
 
-                                        } catch (Exception e) {
-                                        }
-                                    }
-
-                                }).start();
-                                dialog.dismiss();
-                            }
-                        }).setCancelable(false).show();
             }
 
 
@@ -192,24 +165,50 @@ public class SearchActivity extends AppCompatActivity {
     }
 
 
-    private void showBSDialog() {
+    private void showBSDialog(final List<SizeBean> sizeBeanList, final String singername,final String mid) {
         final BottomSheetDialog dialog = new BottomSheetDialog(this);
         View view = LayoutInflater.from(this).inflate(R.layout.checksize, null);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.bs_rv);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        SizeAdapter adapter = new SizeAdapter(this,mdata);
+        final SizeAdapter adapter = new SizeAdapter(this,sizeBeanList);
         adapter.setItemClickListener(new SizeAdapter.ItemClickListener() {
             @Override
             public void onItemClick(int pos) {
+                SizeBean sizeBean=sizeBeanList.get(pos);
+
+                int i=sizeBean.getI();
                 DownloadUtils downloadUtils = new DownloadUtils(SearchActivity.this);
-                downloadUtils.downloadAPK(T, "M5000041vb5D3WMtrl.mp3");
-                dialog.dismiss();
-                Toast.makeText(SearchActivity.this, "pos--->" + pos, Toast.LENGTH_LONG).show();
+                switch (i){
+                    case 1:
+                        String url1=HEAD+"M500"+mid+".mp3?vkey="+vkey+"&guid=1234567890"+"&uin="+uin+"&fromtag=64";
+                        downloadUtils.downloadAPK(url1, singername+"(标准)"+".mp3");
+                        dialog.dismiss();
+                        break;
+                    case 2:
+                        String url2=HEAD+"M800"+mid+".mp3?vkey="+vkey+"&guid=1234567890"+"&uin="+uin+"&fromtag=64";
+                        downloadUtils.downloadAPK(url2, singername+"(高品质)"+".mp3");
+                        dialog.dismiss();
+                        break;
+
+                    case 3:
+                        String url3=HEAD+"A000"+mid+".ape?vkey="+vkey+"&guid=1234567890"+"&uin="+uin+"&fromtag=64";
+                        downloadUtils.downloadAPK(url3, singername+".ape");
+                        dialog.dismiss();
+
+                        break;
+                    case 4:
+                        String url4=HEAD+"F000"+mid+".flac?vkey="+vkey+"&guid=1234567890"+"&uin="+uin+"&fromtag=64";
+                        downloadUtils.downloadAPK(url4, singername+".flac");
+                        dialog.dismiss();
+                        break;
+                }
+
             }
         });
         recyclerView.setAdapter(adapter);
         dialog.setContentView(view);
         dialog.show();
+        searchView.clearFocus();
     }
 
 

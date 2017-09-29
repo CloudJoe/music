@@ -6,4 +6,6 @@ package com.music;
 
 public class TimbreData {
 
+    public static String a="abc";
+
 }
